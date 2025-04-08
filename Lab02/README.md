@@ -3,16 +3,13 @@
 ### Observações Utilizando `float`
 
 - O resultado do produto interno calculado de forma sequencial e paralela apresentou pequenas diferenças numéricas.
-- Isso acontece porque operações com ponto flutuante (`float`) não são associativas — ou seja, a ordem de soma influencia o resultado final.
-- No caso do cálculo paralelo, as somas parciais ocorrem em diferentes threads e em ordens diferentes da versão sequencial.
 
 
 ---
 
 ### Observações Utilizando `double`
 
-- A diferença entre o valor sequencial e o paralelo diminuiu consideravelmente.
-- O uso de `double` aumenta a precisão dos cálculos e reduz o impacto da ordem de somas nas operações de produto interno.
+- A diferença entre o valor sequencial e o paralelo diminuiu um pouco.
 
 ---
 
