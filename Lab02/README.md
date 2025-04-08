@@ -9,7 +9,7 @@
 
 ### Observações Utilizando `double`
 
-- A diferença entre o valor sequencial e o paralelo diminuiu um pouco em relação ao calculo do produto interno utiliando float.
+- A diferença entre o valor sequencial e o paralelo diminuiu em relação ao calculo do produto interno utilizando float.
 
 ---
 
