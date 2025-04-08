@@ -1,6 +1,7 @@
 #include <pthread.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <math.h>
 
 // Variáveis globais
 long int n;           // Tamanho dos vetores
@@ -125,7 +126,7 @@ int main(int argc, char *argv[]) {
   printf("Produto Interno (concorrente) = %.26f\n", produto_par_global);
 
   // Calcula a variação relativa
-  double variacao_relativa = (produto_seq - produto_par_global) / produto_seq;
+  double variacao_relativa = fabs(produto_seq - produto_par_global) / fabs(produto_seq);
   printf("Variação Relativa = %.26f\n", variacao_relativa);
 
   // Desaloca os espaços de memória
