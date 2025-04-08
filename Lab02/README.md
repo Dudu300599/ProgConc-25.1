@@ -4,13 +4,15 @@
 
 - O resultado do produto interno calculado de forma sequencial e paralela apresentou pequenas diferenças numéricas.
 
+Produto Interno (sequencial) = 2772580829962.53271484375000000000000000
+Produto Interno (concorrente) = 2772580829964.16455078125000000000000000
+Variação Relativa = 0.00000000000058856207900783
 
 ---
 
 ### Observações Utilizando `double`
 
-- A diferença entre o valor sequencial e o paralelo diminuiu em relação ao calculo do produto interno utilizando float.
-
+- A diferença entre o valor sequencial e o paralelo diminuiu de forma significativa
 ---
 
 ## Conclusão
