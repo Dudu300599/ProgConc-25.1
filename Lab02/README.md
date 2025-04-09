@@ -4,6 +4,8 @@
 
 - O resultado do produto interno calculado de forma sequencial e paralela apresentou pequenas diferenças numéricas.
 ---
+
+## Exemplos de Saída com `float`
 ```bash
 Produto Interno (sequencial) = 2772580829962.53271484375000000000000000
 Produto Interno (concorrente) = 2772580829964.16455078125000000000000000
@@ -23,6 +25,7 @@ Variação Relativa = 0.00000000000082705365316653
 - A diferença entre o valor sequencial e o paralelo diminuiu de forma significativa
 ---
 
+## Exemplos de Saída com `double`
 ```bash
 Produto Interno (sequencial) = 2772383992476.08300781250000000000000000
 Produto Interno (concorrente) = 2772383992477.00585937500000000000000000
