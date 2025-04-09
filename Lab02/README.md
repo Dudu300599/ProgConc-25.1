@@ -4,9 +4,11 @@
 
 - O resultado do produto interno calculado de forma sequencial e paralela apresentou pequenas diferenças numéricas.
 
+```bash
 Produto Interno (sequencial) = 2772580829962.53271484375000000000000000
 Produto Interno (concorrente) = 2772580829964.16455078125000000000000000
 Variação Relativa = 0.00000000000058856207900783
+```
 
 ---
 
