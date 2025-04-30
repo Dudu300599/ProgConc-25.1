@@ -14,6 +14,7 @@
 
 • Processador: 13ª geração Intel® Core™ i5-13500, com 14 núcleos
 
+---
 
 ### 🕒 Tempo de Execução (em segundos)
 
@@ -30,6 +31,7 @@
 ### 📊 Gráfico Tempo de Execução (em segundos)
 
 ![Gráfico de TempoExecucao](grafico_tempoExecucao.png)
+
 ---
 
 ### ⚡ Aceleração
@@ -58,6 +60,8 @@
 
 ---
 
+### Conclusão
+Os resultados dos experimentos mostram que a implementação concorrente trouxe benefícios limitados, especialmente para valores pequenos de N, como 10³. Mesmo para N = 10⁶, onde o tempo de execução é mais significativo, a aceleração obtida foi modesta e a eficiência diminuiu com o aumento do número de threads.
 
 ## 🛠️ Compilação
 
