@@ -7,8 +7,11 @@
 
 ### 💻 Configuração da Máquina
 • Sistema Operacional: Linux Mint 21 Cinnamon
+
 • Versão do Cinnamon: 5.4.12
+
 • Kernel do Linux: 5.15.0-101-generic
+
 • Processador: 13ª geração Intel® Core™ i5-13500, com 14 núcleos
 
 
