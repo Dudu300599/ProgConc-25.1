@@ -5,6 +5,13 @@
 
 ## Resultados Experimentais
 
+### 💻 Configuração da Máquina
+• Sistema Operacional: Linux Mint 21 Cinnamon
+• Versão do Cinnamon: 5.4.12
+• Kernel do Linux: 5.15.0-101-generic
+• Processador: 13ª geração Intel® Core™ i5-13500, com 14 núcleos
+
+
 ### 🕒 Tempo de Execução (em segundos)
 
 | Execução | Sequencial 10³ | Sequencial 10⁶ | 2 Threads 10³ | 2 Threads 10⁶ | 4 Threads 10³ | 4 Threads 10⁶ |
@@ -17,7 +24,7 @@
 | **Média**| **0,0011074**   | **0,152951**   | **0,0009302**  | **0,140674**  | **0,0009554**  | **0,147558**  |
 
 
-### 📊 Gráfico de Aceleração
+### 📊 Gráfico Tempo de Execução (em segundos)
 
 ![Gráfico de TempoExecucao](grafico_tempoExecucao.png)
 ---
