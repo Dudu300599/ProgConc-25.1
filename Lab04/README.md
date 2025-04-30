@@ -19,7 +19,7 @@
 
 ### 📊 Gráfico de Aceleração
 
-![Gráfico de Aceleração](grafico_tempo_execucao.png)
+![Gráfico de TempoExecucao](grafico_tempoExecucao.png)
 ---
 
 ### ⚡ Aceleração
