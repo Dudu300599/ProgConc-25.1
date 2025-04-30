@@ -27,7 +27,7 @@
 
 ### 📊 Gráfico de Aceleração
 
-![Gráfico de Aceleração](Gráfico de Aceleração.png)
+![Gráfico de Aceleração](grafico_aceleracao.png)
 
 ---
 
@@ -40,7 +40,7 @@
 
 ### 📊 Gráfico de Eficiência
 
-![Gráfico de Eficiência](Gráfico de Eficiência.png)
+![Gráfico de Eficiência](grafico_eficiencia.png)
 
 ---
 
