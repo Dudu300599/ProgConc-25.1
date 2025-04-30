@@ -40,4 +40,4 @@
 ## 🛠️ Compilação
 
 ```bash
-gcc -o primos primos.c -lpthread -lm
+gcc -o EhPrimo EhPrimo.c -lpthread -lm
