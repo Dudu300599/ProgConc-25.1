@@ -2,123 +2,134 @@
 #include <stdlib.h>
 #include <pthread.h>
 #include <math.h>
-#include <unistd.h>
 
-#define MAX 100000
-
-long long int *buffer;
-int N, M, C;
-int in = 0, out = 0, count = 0;
-int *primos_por_consumidor;
-
-pthread_mutex_t mutex = PTHREAD_MUTEX_INITIALIZER;
-pthread_cond_t cond_cheio = PTHREAD_COND_INITIALIZER;
-pthread_cond_t cond_vazio = PTHREAD_COND_INITIALIZER;
-
-// Função para verificar se um número é primo
+//Função de primalidade
 int ehPrimo(long long int n) {
     if (n <= 1) return 0;
     if (n == 2) return 1;
     if (n % 2 == 0) return 0;
-    for (int i = 3; i * i <= n; i += 2) {
+    for (long long int i = 3; i <= sqrt(n); i += 2) {
         if (n % i == 0) return 0;
     }
     return 1;
 }
 
-// Função da thread produtora
-void* produtor(void* arg) {
-    for (int i = 0; i < N; i++) {
+//Variáveis Globais
+int *buffer;
+int M, N, C; // Tamanho do buffer, qtd de números, qtd de consumidores
+int in = 0, out = 0, count = 0;
+int fim_producao = 0;
+
+int *primos_por_consumidor;
+
+pthread_mutex_t mutex = PTHREAD_MUTEX_INITIALIZER;
+pthread_cond_t cond_vazio = PTHREAD_COND_INITIALIZER;
+pthread_cond_t cond_cheio = PTHREAD_COND_INITIALIZER;
+
+//Produtor
+void *produtora(void *arg) {
+    for (int i = 1; i <= N; i++) {
         pthread_mutex_lock(&mutex);
-        while (count == M) {
+
+        while (count == M)
             pthread_cond_wait(&cond_cheio, &mutex);
-        }
-        buffer[in] = rand() % MAX;
+
+        buffer[in] = i;
         in = (in + 1) % M;
         count++;
+
         pthread_cond_signal(&cond_vazio);
         pthread_mutex_unlock(&mutex);
     }
 
-    // Sinaliza para os consumidores que a produção acabou (N valores já foram gerados)
-    for (int i = 0; i < C; i++) {
-        pthread_mutex_lock(&mutex);
-        while (count == M) {
-            pthread_cond_wait(&cond_cheio, &mutex);
-        }
-        buffer[in] = -1; // -1 como sentinela para encerrar consumidor
-        in = (in + 1) % M;
-        count++;
-        pthread_cond_signal(&cond_vazio);
-        pthread_mutex_unlock(&mutex);
-    }
+    pthread_mutex_lock(&mutex);
+    fim_producao = 1;
+    pthread_cond_broadcast(&cond_vazio); //acorda todos os consumidores
+    pthread_mutex_unlock(&mutex);
 
     return NULL;
 }
 
-// Função da thread consumidora
-void* consumidor(void* arg) {
-    int id = *(int*)arg;
-    int meus_primos = 0;
+//Consumidor
+void *consumidora(void *arg) {
+    int id = *(int *)arg;
+    free(arg);
+    int local_primos = 0;
 
     while (1) {
         pthread_mutex_lock(&mutex);
-        while (count == 0) {
+
+        while (count == 0 && !fim_producao)
             pthread_cond_wait(&cond_vazio, &mutex);
+
+        if (count == 0 && fim_producao) {
+            pthread_mutex_unlock(&mutex);
+            break;
         }
 
-        long long int num = buffer[out];
+        int numero = buffer[out];
         out = (out + 1) % M;
         count--;
+
         pthread_cond_signal(&cond_cheio);
         pthread_mutex_unlock(&mutex);
 
-        if (num == -1) break; // fim
-
-        if (ehPrimo(num)) {
-            meus_primos++;
+        if (ehPrimo(numero)) {
+            local_primos++;
         }
     }
 
-    primos_por_consumidor[id] = meus_primos;
+    primos_por_consumidor[id] = local_primos;
     return NULL;
 }
 
-int main() {
-    printf("Digite N (quantidade de números), M (tamanho do buffer), C (consumidores): ");
-    scanf("%d %d %d", &N, &M, &C);
-
-    buffer = malloc(sizeof(long long int) * M);
-    primos_por_consumidor = calloc(C, sizeof(int));
-    pthread_t t_produtor, t_consumidores[C];
-    int ids[C];
-
-    pthread_create(&t_produtor, NULL, produtor, NULL);
-
-    for (int i = 0; i < C; i++) {
-        ids[i] = i;
-        pthread_create(&t_consumidores[i], NULL, consumidor, &ids[i]);
+//Main
+int main(int argc, char *argv[]) {
+    if (argc != 4) {
+        printf("Uso: %s <N> <M> <C>\n", argv[0]);
+        return 1;
     }
 
-    pthread_join(t_produtor, NULL);
+    N = atoi(argv[1]);  // Quantidade de números a produzir
+    M = atoi(argv[2]);  // Tamanho do buffer
+    C = atoi(argv[3]);  // Quantidade de threads consumidoras
+
+    buffer = (int *)malloc(sizeof(int) * M);
+    primos_por_consumidor = (int *)calloc(C, sizeof(int));
+
+    pthread_t tid_produtora;
+    pthread_t consumidores[C];
+
+    pthread_create(&tid_produtora, NULL, produtora, NULL);
 
     for (int i = 0; i < C; i++) {
-        pthread_join(t_consumidores[i], NULL);
+        int *id = malloc(sizeof(int));
+        *id = i;
+        pthread_create(&consumidores[i], NULL, consumidora, id);
     }
 
-    int total_primos = 0, max_primos = 0, vencedora = -1;
+    pthread_join(tid_produtora, NULL);
     for (int i = 0; i < C; i++) {
-        total_primos += primos_por_consumidor[i];
-        if (primos_por_consumidor[i] > max_primos) {
-            max_primos = primos_por_consumidor[i];
-            vencedora = i;
+        pthread_join(consumidores[i], NULL);
+    }
+
+    int total = 0;
+    int vencedor = 0;
+    for (int i = 0; i < C; i++) {
+        total += primos_por_consumidor[i];
+        if (primos_por_consumidor[i] > primos_por_consumidor[vencedor]) {
+            vencedor = i;
         }
     }
 
-    printf("Total de primos encontrados: %d\n", total_primos);
-    printf("Thread consumidora vencedora: %d (com %d primos)\n", vencedora, max_primos);
+    printf("\nTotal de primos encontrados: %d\n", total);
+    printf("Thread consumidora vencedora: %d (com %d primos)\n", vencedor, primos_por_consumidor[vencedor]);
 
     free(buffer);
     free(primos_por_consumidor);
+    pthread_mutex_destroy(&mutex);
+    pthread_cond_destroy(&cond_vazio);
+    pthread_cond_destroy(&cond_cheio);
+
     return 0;
 }
