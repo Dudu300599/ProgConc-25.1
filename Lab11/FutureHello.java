@@ -15,7 +15,7 @@ import java.util.List;
 
 import java.lang.Math;
 
-// ----------- Tarefa 1: Soma simples -----------
+// Soma simples
 class MyCallable implements Callable<Long> {
     @Override
     public Long call() {
@@ -27,7 +27,7 @@ class MyCallable implements Callable<Long> {
     }
 }
 
-// ----------- Tarefa 2: Verificar se um número é primo -----------
+// Verificar se um número é primo
 class VerificaPrimo implements Callable<Integer> {
     private final int numero;
 
@@ -38,9 +38,9 @@ class VerificaPrimo implements Callable<Integer> {
     @Override
     public Integer call() {
         if (ehPrimo(numero)) {
-            return 1; // É primo
+            return 1;
         } else {
-            return 0; // Não é primo
+            return 0;
         }
     }
 
@@ -56,11 +56,10 @@ class VerificaPrimo implements Callable<Integer> {
     }
 }
 
-// ----------- Classe principal -----------
 public class FutureHello {
-    private static final int N = 100_000;      // Limite para primos
-    private static final int NTHREADS = 10;    // Número de threads
-    private static final int N_SUM = 3;        // Quantas tarefas de soma
+    private static final int N = 100_000;   
+    private static final int NTHREADS = 10;   
+    private static final int N_SUM = 3;        
 
     public static void main(String[] args) {
         ExecutorService executor = Executors.newFixedThreadPool(NTHREADS);
